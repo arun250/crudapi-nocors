@@ -12,6 +12,7 @@ const navigate = useNavigate()
   
 const handleLogout = () => {
   alert("Logout Succesfully")
+  sessionStorage.removeItem("loggedIn")
   navigate("/")
 }
   return (

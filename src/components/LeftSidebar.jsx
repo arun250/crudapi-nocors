@@ -3,7 +3,6 @@ import logo from "../assets/images/logo.png"
 import fav from "../assets/images/fav.png"
 import { useNavigate } from 'react-router-dom'
 
-import initHyperConfig from "./HyperConfig"; 
 
 function LeftSidebar({isOpen}) {
   const navigate = useNavigate()
@@ -16,6 +15,8 @@ function LeftSidebar({isOpen}) {
     navigate("/startPage")
   }
   const handleLogout = () => {
+    alert("Logout Succesfully")
+    sessionStorage.removeItem("loggedIn")
     navigate("/")
   }
 

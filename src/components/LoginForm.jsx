@@ -1,6 +1,6 @@
 import logo from "../assets/images/logo.png";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 import bcrypt from "bcryptjs";
 function LoginForm() {
   const [email, setEmail] = useState("");
@@ -34,14 +34,16 @@ function LoginForm() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+    const expiryTime = Date.now() + 30 * 60 * 1000;
     if (!validate()) return;
     try {
       const response = await fetch(
-        " https://api.covenanttecs.com/Api/CRUD_API2/AuthenticateUser",
+        "https://api.covenanttecs.com/Api/CRUD_API2/AuthenticateUser",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ Email: email, PasswordHash: password }),
+          
         }
       );
 
@@ -60,7 +62,11 @@ function LoginForm() {
 
       if (response.ok && data.success === true) {
         console.log("Login successful", data);
-        setSucMessage("login successful");
+        sessionStorage.setItem("loggedIn", JSON.stringify({
+          expiry:expiryTime
+        }))
+        setSucMessage(data.message)
+        alert(data.message)
         navigate("/startpage");
         setToast(true);
         setTimeout(() => setToast(false), 3000);
